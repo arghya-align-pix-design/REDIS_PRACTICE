@@ -19,8 +19,9 @@ async function startWorker() {
                 // we did brpop here so that it waits here for a response from the queue
                 // or else it ll keep on running and consuming cpu cycles unnecessarily
                 // and also keep becoming null when there is no data in the queue
-                const submission = await client.brPop("problems", 0);
-                // @ts-ignore
+                const submission = await client.brPop("Problems", 0);
+                console.log("Received submission from queue: ", submission);
+                await new Promise(resolve => setTimeout(resolve, 1000));
                 await processSubmission(submission.element);
             }
             catch (err) {
